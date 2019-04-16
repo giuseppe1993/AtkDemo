@@ -12,6 +12,8 @@
 #include "demo_root.h"
 #include "demo_root_pane.h"
 #include "demo_frame.h"
+#include "demo_layered_pane.h"
+#include "demo_panel.h"
 #include "demo_window.h"
 
 #endif /* MYATK_H_ */

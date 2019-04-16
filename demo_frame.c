@@ -4,8 +4,6 @@
  *  Created on: Apr 10, 2019
  *      Author: giuseppe
  */
-#include <stdio.h>
-
 #include <gmodule.h>
 #include "demo_frame.h"
 

@@ -13,7 +13,9 @@
 static CAtkActor *root = NULL;
 static CAtkActor *frame = NULL;
 static CAtkActor *root_pane = NULL;
-static CAtkWindow *window = NULL;
+static CAtkActor *layered_pane = NULL;
+static CAtkActor *panel = NULL;
+//static CAtkWindow *window = NULL;
 static GMainLoop *mainloop;
 
 static AtkObject *
@@ -63,23 +65,33 @@ add_atk_frame(void){
 }
 
 static void
-add_atk_root_pane(void){
-	if (frame && !root_pane)
+add_atk_child(CAtkActor *father, CAtkActor *child, AtkRole role){
+	if (father && !child)
 	{
-		root_pane = C_ATK_ACTOR(c_atk_root_pane_new());
-		c_atk_actor_add_child(frame, ATK_OBJECT(root_pane));
+		switch (role)
+		{
+		case ATK_ROLE_ROOT_PANE:
+			printf("Ruolo root pane\n");
+			child = C_ATK_ACTOR(c_atk_root_pane_new());
+			break;
+		case ATK_ROLE_PANEL:
+			printf("Ruolo panel\n");
+			child = C_ATK_ACTOR(c_atk_panel_new());
+			break;
+		case ATK_ROLE_LAYERED_PANE:
+			printf("Ruolo layered pane\n");
+			child = C_ATK_ACTOR(c_atk_layered_pane_new());
+			break;		
+		
+		default:
+			printf("Ruolo non riconosciuto\n");
+		}
+		if(child)
+			c_atk_actor_add_child(father, ATK_OBJECT(child));
 	}
+	if(!father)
+		printf("Padre non inizializzato\n");
 }
-
-static void
-add_atk_window(void){
-	if (root_pane && !window)
-	{
-		window = c_atk_window_new();
-		c_atk_actor_add_child(root_pane, ATK_OBJECT(window));
-	}
-}
-
 
 int main(int argc, char **argv) {
 
@@ -90,8 +102,9 @@ int main(int argc, char **argv) {
 	if(init_outcome == 0){
 		printf ("Initialized\n");
 		add_atk_frame();
-		add_atk_root_pane();
-		add_atk_window();
+		add_atk_child(frame, root_pane, ATK_ROLE_ROOT_PANE);
+		add_atk_child(root_pane, panel, ATK_ROLE_PANEL);
+		add_atk_child(root_pane, layered_pane, ATK_ROLE_LAYERED_PANE);
 	}
 	else
 		printf ("Not Initialized\n");
@@ -100,7 +113,10 @@ int main(int argc, char **argv) {
 	g_main_loop_run (mainloop);
 
 	atk_bridge_adaptor_cleanup();
-	g_object_unref(window);
+	//g_object_unref(window);
+	g_object_unref(panel);
+	g_object_unref(layered_pane);
+	g_object_unref(root_pane);
 	g_object_unref(frame);
 	g_object_unref(root);
 
