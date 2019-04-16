@@ -64,35 +64,28 @@ add_atk_frame(void){
 	}
 }
 
-static void
-add_atk_child(CAtkActor *father, CAtkActor *child, AtkRole role){
-	if (father && !child)
+static CAtkActor*
+create_atk_child_for_role(AtkRole role)
+{
+	GType type;
+	switch (role)
 	{
-		switch (role)
-		{
-		case ATK_ROLE_ROOT_PANE:
-			printf("Ruolo root pane\n");
-			child = C_ATK_ACTOR(c_atk_root_pane_new());
-			printf("indirizzo di child = %p\n", child);
-			printf("indirizzo di root_pane = %p\n", root_pane);
-			break;
-		case ATK_ROLE_PANEL:
-			printf("Ruolo panel\n");
-			child = C_ATK_ACTOR(c_atk_panel_new());
-			break;
-		case ATK_ROLE_LAYERED_PANE:
-			printf("Ruolo layered pane\n");
-			child = C_ATK_ACTOR(c_atk_layered_pane_new());
-			break;		
-		
-		default:
-			printf("Ruolo non riconosciuto\n");
-		}
-		if(child)
-			c_atk_actor_add_child(father, ATK_OBJECT(child));
+	case ATK_ROLE_ROOT_PANE:
+		type = C_TYPE_ATK_ROOT_PANE;
+		break;
+	case ATK_ROLE_PANEL:
+		type = C_TYPE_ATK_PANEL;
+		break;
+	case ATK_ROLE_LAYERED_PANE:
+		type = C_TYPE_ATK_LAYERED_PANE;
+		break;
+	
+	default:
+		g_assert_not_reached();
+		return NULL;
 	}
-	if(!father)
-		printf("Padre non inizializzato\n");
+
+	return g_object_new(type, NULL);
 }
 
 int main(int argc, char **argv) {
@@ -104,9 +97,12 @@ int main(int argc, char **argv) {
 	if(init_outcome == 0){
 		printf ("Initialized\n");
 		add_atk_frame();
-		add_atk_child(frame, root_pane, ATK_ROLE_ROOT_PANE);
-		add_atk_child(root_pane, panel, ATK_ROLE_PANEL);
-		add_atk_child(root_pane, layered_pane, ATK_ROLE_LAYERED_PANE);
+		root_pane = create_atk_child_for_role(ATK_ROLE_ROOT_PANE);
+		atk_object_set_parent(ATK_OBJECT(root_pane),ATK_OBJECT(frame));
+		panel = create_atk_child_for_role(ATK_ROLE_PANEL);
+		atk_object_set_parent(ATK_OBJECT(panel),ATK_OBJECT(root_pane));
+		layered_pane = create_atk_child_for_role(ATK_ROLE_LAYERED_PANE);
+		atk_object_set_parent(ATK_OBJECT(layered_pane),ATK_OBJECT(root_pane));
 	}
 	else
 		printf ("Not Initialized\n");

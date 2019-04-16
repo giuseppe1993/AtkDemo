@@ -72,15 +72,6 @@ void c_atk_actor_remove_state(CAtkActor *actor, AtkStateType state){
 	atk_object_notify_state_change( ATK_OBJECT(actor), state, FALSE);
 }
 
-/*
-static void
-c_atk_actor_initialize (AtkObject *self, gpointer null)
-{
-	atk_object_initialize(self, NULL);
-
-	atk_object_set_parent(self, NULL);
-}
-*/
 static AtkStateSet*
 c_atk_actor_ref_state_set(AtkObject *obj)
 {
@@ -119,6 +110,15 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   return item;
 }
 
+static AtkAttribute*
+copy_attribute(AtkAttribute *attribute, gpointer data)
+{
+	AtkAttribute *copy = g_new0(AtkAttribute,1);
+	strcpy(copy->name,attribute->name);
+	strcpy(copy->value,attribute->value);
+	return g_object_ref(copy);
+}
+
 static AtkAttributeSet*
 c_atk_actor_get_attributes(AtkObject *obj)
 {
@@ -126,13 +126,12 @@ c_atk_actor_get_attributes(AtkObject *obj)
 	gint num = 0;
 
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(obj));
-
-	atr_list = priv->attributes;
-
-	num = g_slist_length (atr_list);
+	num = g_slist_length (priv->attributes);
 
 	if (!num)
 	  return NULL;
+	
+	atr_list = g_slist_copy_deep(priv->attributes, copy_attribute, NULL);
 
 	g_object_ref (atr_list);
 
@@ -141,12 +140,9 @@ c_atk_actor_get_attributes(AtkObject *obj)
 
 void c_atk_actor_add_attribute (CAtkActor *actor, AtkAttribute *attribute)
 {
-	
-	fprintf(stderr, "[c_atk_actor_add_attribute]\n");
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
 	if(!g_slist_find(priv->attributes, attribute))
 	{
-		fprintf(stderr, "\tappending!\n");
 		priv->attributes = g_slist_append(priv->attributes, attribute);
 	}
 }
@@ -189,7 +185,6 @@ c_atk_actor_class_init (CAtkActorClass *klass)
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
   AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
 
-  //atk_class->initialize = c_atk_actor_initialize;
   atk_class->get_n_children = c_atk_actor_get_n_children;
   atk_class->ref_child = c_atk_actor_ref_child;
   atk_class->ref_state_set = c_atk_actor_ref_state_set;
