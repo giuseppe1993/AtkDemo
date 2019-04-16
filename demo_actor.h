@@ -31,9 +31,9 @@ void c_atk_actor_add_state (CAtkActor *actor, AtkStateType state);
 
 void c_atk_actor_remove_state (CAtkActor *actor, AtkStateType state);
 
-void c_atk_actor_add_attribute (CAtkActor *actor, AtkAttribute *attribute);
+void c_atk_actor_add_attribute (CAtkActor *actor, gchar *name, gchar *value);
 
-void c_atk_actor_remove_attribute (CAtkActor *actor, AtkAttribute *attribute);
+void c_atk_actor_remove_attribute (CAtkActor *actor,  gchar *name, gchar *value);
 
 G_END_DECLS
 

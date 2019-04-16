@@ -51,41 +51,32 @@ add_atk_frame(void){
 		frame = C_ATK_ACTOR(c_atk_frame_new());
 		c_atk_actor_add_child(root, ATK_OBJECT(frame));
 		//interrogation of java object
-		c_atk_actor_add_state(frame, ATK_STATE_ENABLED);
-		c_atk_actor_add_state(frame, ATK_STATE_FOCUSABLE);
-		c_atk_actor_add_state(frame, ATK_STATE_VISIBLE);
-		c_atk_actor_add_state(frame, ATK_STATE_SHOWING);
-		c_atk_actor_add_state(frame, ATK_STATE_RESIZABLE);
+		c_atk_actor_add_state ( frame, ATK_STATE_ENABLED);
+		c_atk_actor_add_state ( frame, ATK_STATE_FOCUSABLE);
+		c_atk_actor_add_state ( frame, ATK_STATE_VISIBLE);
+		c_atk_actor_add_state ( frame, ATK_STATE_SHOWING);
+		c_atk_actor_add_state ( frame, ATK_STATE_RESIZABLE);
 
-		AtkAttribute *demo = g_new0(AtkAttribute,1);
-		demo->name = "name";
-		demo->value = "demo";
-		c_atk_actor_add_attribute(frame, demo);
+		c_atk_actor_add_attribute( frame, "name", "demo" );
 	}
 }
 
 static CAtkActor*
 create_atk_child_for_role(AtkRole role)
 {
-	GType type;
 	switch (role)
 	{
 	case ATK_ROLE_ROOT_PANE:
-		type = C_TYPE_ATK_ROOT_PANE;
-		break;
+		return C_ATK_ACTOR(c_atk_root_pane_new());		
 	case ATK_ROLE_PANEL:
-		type = C_TYPE_ATK_PANEL;
-		break;
+		return C_ATK_ACTOR(c_atk_panel_new());
 	case ATK_ROLE_LAYERED_PANE:
-		type = C_TYPE_ATK_LAYERED_PANE;
-		break;
+		return C_ATK_ACTOR(c_atk_layered_pane_new());
 	
 	default:
 		g_assert_not_reached();
 		return NULL;
 	}
-
-	return g_object_new(type, NULL);
 }
 
 int main(int argc, char **argv) {

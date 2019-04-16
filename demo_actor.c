@@ -31,7 +31,7 @@ c_atk_actor_add_child(CAtkActor *actor, AtkObject *obj)
 	atk_object_set_parent (obj, ATK_OBJECT (actor));
 
 	priv->accessibleObjects = g_list_append (priv->accessibleObjects, obj);
-
+	
 	index = g_list_index (priv->accessibleObjects, obj);
 	g_signal_emit_by_name (actor, "children-changed::add", index, obj, NULL);
 
@@ -110,36 +110,50 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   return item;
 }
 
-static AtkAttribute*
-copy_attribute(AtkAttribute *attribute, gpointer data)
+static AtkAttributeSet*
+copy_attributes(AtkAttributeSet *origin)
 {
-	AtkAttribute *copy = g_new0(AtkAttribute,1);
-	strcpy(copy->name,attribute->name);
-	strcpy(copy->value,attribute->value);
-	return g_object_ref(copy);
+	AtkAttributeSet *list = NULL;
+	GSList *i = origin;
+	while (i){
+		AtkAttribute *attribute = i -> data;
+		AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
+		
+		copy -> name = g_new0( gchar, strlen(attribute -> name) );
+		strcpy( copy->name , attribute -> name );
+		copy -> value = g_new0( gchar, strlen(attribute -> value) );
+		strcpy( copy -> value, attribute -> value );
+		
+		list = g_slist_append ( list, copy );
+		i = i -> next;
+	} 
+
+	return list;
 }
 
 static AtkAttributeSet*
 c_atk_actor_get_attributes(AtkObject *obj)
 {
 	AtkAttributeSet *atr_list = NULL;
-	gint num = 0;
+	int num = 0;
 
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(obj));
 	num = g_slist_length (priv->attributes);
 
 	if (!num)
 	  return NULL;
-	
-	atr_list = g_slist_copy_deep(priv->attributes, copy_attribute, NULL);
+	atr_list = copy_attributes(priv->attributes);
 
 	g_object_ref (atr_list);
 
 	return atr_list;
 }
 
-void c_atk_actor_add_attribute (CAtkActor *actor, AtkAttribute *attribute)
+void c_atk_actor_add_attribute (CAtkActor *actor, gchar *name, gchar *value)
 {
+	AtkAttribute *attribute = g_new0(AtkAttribute,1);
+	attribute->name = name;
+	attribute->value = value;
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
 	if(!g_slist_find(priv->attributes, attribute))
 	{
@@ -147,8 +161,11 @@ void c_atk_actor_add_attribute (CAtkActor *actor, AtkAttribute *attribute)
 	}
 }
 
-void c_atk_actor_remove_attribute (CAtkActor *actor, AtkAttribute *attribute)
+void c_atk_actor_remove_attribute (CAtkActor *actor, gchar *name, gchar *value)
 {
+	AtkAttribute *attribute = g_new0(AtkAttribute,1);
+	attribute->name = name;
+	attribute->value = value;
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
 	if(!g_slist_find(priv->attributes, attribute))
 	{

@@ -27,7 +27,7 @@ void c_atk_window_add_child(CAtkWindow *window, AtkObject *obj)
 	atk_object_set_parent (obj, ATK_OBJECT (window));
 
 	priv->accessibleObjects = g_list_append (priv->accessibleObjects, obj);
-
+	
 	index = g_list_index (priv->accessibleObjects, obj);
 	g_signal_emit_by_name (window, "children-changed::add", index, obj, NULL);
 
