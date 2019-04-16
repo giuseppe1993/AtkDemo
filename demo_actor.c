@@ -141,9 +141,12 @@ c_atk_actor_get_attributes(AtkObject *obj)
 
 void c_atk_actor_add_attribute (CAtkActor *actor, AtkAttribute *attribute)
 {
+	
+	fprintf(stderr, "[c_atk_actor_add_attribute]\n");
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
-	if(g_slist_find(priv->attributes, attribute))
+	if(!g_slist_find(priv->attributes, attribute))
 	{
+		fprintf(stderr, "\tappending!\n");
 		priv->attributes = g_slist_append(priv->attributes, attribute);
 	}
 }

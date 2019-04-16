@@ -73,6 +73,8 @@ add_atk_child(CAtkActor *father, CAtkActor *child, AtkRole role){
 		case ATK_ROLE_ROOT_PANE:
 			printf("Ruolo root pane\n");
 			child = C_ATK_ACTOR(c_atk_root_pane_new());
+			printf("indirizzo di child = %p\n", child);
+			printf("indirizzo di root_pane = %p\n", root_pane);
 			break;
 		case ATK_ROLE_PANEL:
 			printf("Ruolo panel\n");
