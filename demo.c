@@ -15,7 +15,6 @@ static CAtkActor *frame = NULL;
 static CAtkActor *root_pane = NULL;
 static CAtkActor *layered_pane = NULL;
 static CAtkActor *panel = NULL;
-//static CAtkWindow *window = NULL;
 static GMainLoop *mainloop;
 
 static AtkObject *
@@ -60,12 +59,6 @@ add_atk_frame(void){
 		c_atk_actor_add_attribute( frame, "name", "demo" );
 	}
 }
-/*
-static CAtkRootPane*
-add_atk_root_pane()
-{
-	CAtkRootPane *root_pane = c_atk_root_pane_new 
-}*/
 
 static CAtkActor*
 create_atk_child_for_role(AtkRole role)
@@ -115,7 +108,6 @@ int main(int argc, char **argv) {
 	g_main_loop_run (mainloop);
 
 	atk_bridge_adaptor_cleanup();
-	//g_object_unref(window);
 	g_object_unref(panel);
 	g_object_unref(layered_pane);
 	g_object_unref(root_pane);

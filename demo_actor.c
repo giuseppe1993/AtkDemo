@@ -113,7 +113,7 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
 static void*
 copy_attribute(const void *origin, gpointer null)
 {
-	AtkAttribute *attribute = ( struct AtkAttribute *) origin;
+	AtkAttribute *attribute = (AtkAttribute *) origin;
 	AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
 	
 	copy -> name = g_strdup (attribute->name);
@@ -134,7 +134,7 @@ c_atk_actor_get_attributes(AtkObject *obj)
 	if (!num)
 	  return NULL;
 
-	atr_list = (struct AtkAttributeSet *) g_list_copy_deep( (struct GList *) priv->attributes, copy_attribute, NULL);
+	atr_list = (AtkAttributeSet *) g_list_copy_deep( (GList *) priv->attributes, copy_attribute, NULL);
 
 	return atr_list;
 }
