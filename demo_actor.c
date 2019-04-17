@@ -110,25 +110,16 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   return item;
 }
 
-static AtkAttributeSet*
-copy_attributes(AtkAttributeSet *origin)
+static void*
+copy_attribute(const void *origin, gpointer null)
 {
-	AtkAttributeSet *list = NULL;
-	GSList *i = origin;
-	while (i){
-		AtkAttribute *attribute = i -> data;
-		AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
+	AtkAttribute *attribute = ( struct AtkAttribute *) origin;
+	AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
+	
+	copy -> name = g_strdup (attribute->name);
+	copy -> value = g_strdup (attribute -> value);
 		
-		copy -> name = g_new0( gchar, strlen(attribute -> name) );
-		strcpy( copy->name , attribute -> name );
-		copy -> value = g_new0( gchar, strlen(attribute -> value) );
-		strcpy( copy -> value, attribute -> value );
-		
-		list = g_slist_append ( list, copy );
-		i = i -> next;
-	} 
-
-	return list;
+	return copy;
 }
 
 static AtkAttributeSet*
@@ -142,9 +133,8 @@ c_atk_actor_get_attributes(AtkObject *obj)
 
 	if (!num)
 	  return NULL;
-	atr_list = copy_attributes(priv->attributes);
 
-	g_object_ref (atr_list);
+	atr_list = (struct AtkAttributeSet *) g_list_copy_deep( (struct GList *) priv->attributes, copy_attribute, NULL);
 
 	return atr_list;
 }

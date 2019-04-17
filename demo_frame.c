@@ -42,9 +42,7 @@ c_atk_frame_get_description()
 static void
 c_atk_frame_initialize (AtkObject *self, gpointer null)
 {
-	atk_object_set_role(self,ATK_ROLE_FRAME);
-
-	atk_object_set_parent(self,NULL);
+	
 }
 
 static void
@@ -71,5 +69,8 @@ c_atk_frame_class_init (CAtkFrameClass *klass)
 static void
 c_atk_frame_init (CAtkFrame *self)
 {
+   atk_object_set_role(ATK_OBJECT(self),ATK_ROLE_FRAME);
+
+	atk_object_set_parent(ATK_OBJECT(self),NULL);
 }
 

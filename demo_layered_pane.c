@@ -42,9 +42,7 @@ c_atk_layered_pane_get_description()
 static void
 c_atk_layered_pane_initialize (AtkObject *self, gpointer null)
 {
-	atk_object_set_role(self,ATK_ROLE_LAYERED_PANE);
-
-	atk_object_set_parent(self,NULL);
+	
 }
 
 static void
@@ -71,4 +69,7 @@ c_atk_layered_pane_class_init (CAtkLayeredPaneClass *klass)
 static void
 c_atk_layered_pane_init (CAtkLayeredPane *self)
 {
+   atk_object_set_role(ATK_OBJECT(self),ATK_ROLE_LAYERED_PANE);
+
+	atk_object_set_parent(ATK_OBJECT(self),NULL);
 }

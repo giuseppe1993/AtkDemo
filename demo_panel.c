@@ -42,9 +42,6 @@ c_atk_panel_get_description()
 static void
 c_atk_panel_initialize (AtkObject *self, gpointer null)
 {
-	atk_object_set_role(self,ATK_ROLE_PANEL);
-
-	atk_object_set_parent(self,NULL);
 }
 
 static void
@@ -71,4 +68,7 @@ c_atk_panel_class_init (CAtkPanelClass *klass)
 static void
 c_atk_panel_init (CAtkPanel *self)
 {
+   atk_object_set_role(ATK_OBJECT(self),ATK_ROLE_PANEL);
+
+	atk_object_set_parent(ATK_OBJECT(self),NULL);
 }
