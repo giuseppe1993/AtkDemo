@@ -20,7 +20,6 @@ G_DECLARE_DERIVABLE_TYPE(CAtkActor, c_atk_actor, C, ATK_ACTOR, AtkObject)
 struct _CAtkActorClass
 {
   AtkObjectClass parent_class;
-
 };
 
 void c_atk_actor_add_child (CAtkActor *actor, AtkObject *obj);

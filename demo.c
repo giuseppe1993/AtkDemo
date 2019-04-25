@@ -15,6 +15,7 @@ static CAtkActor *frame = NULL;
 static CAtkActor *root_pane = NULL;
 static CAtkActor *layered_pane = NULL;
 static CAtkActor *panel = NULL;
+static CAtkActor *panel2 = NULL;
 static GMainLoop *mainloop;
 
 static AtkObject *
