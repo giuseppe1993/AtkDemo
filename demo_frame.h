@@ -9,13 +9,13 @@
 #define DEMO_FRAME_H_
 
 #include <atk/atk.h>
-#include "demo_actor.h"
+#include "demo_component.h"
 
 G_BEGIN_DECLS
 
 #define C_TYPE_ATK_FRAME            (c_atk_frame_get_type ())
 
-G_DECLARE_DERIVABLE_TYPE(CAtkFrame, c_atk_frame, C, ATK_FRAME, CAtkActor)
+G_DECLARE_DERIVABLE_TYPE(CAtkFrame, c_atk_frame, C, ATK_FRAME, CAtkComponent)
 
 struct _CAtkFrameClass
 {

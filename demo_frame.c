@@ -15,7 +15,7 @@ typedef struct
 
 } CAtkFramePrivate;
 
-G_DEFINE_TYPE_WITH_PRIVATE (CAtkFrame, c_atk_frame, C_TYPE_ATK_COMPONENT
+G_DEFINE_TYPE_WITH_PRIVATE (CAtkFrame, c_atk_frame, C_TYPE_ATK_COMPONENT)
 
 CAtkFrame *
 c_atk_frame_new (void)
@@ -69,11 +69,11 @@ c_atk_frame_class_init (CAtkFrameClass *klass)
 static void
 c_atk_frame_init (CAtkFrame *self)
 {
-   atk_object_set_role(ATK_OBJECT(self),ATK_ROLE_FRAME);
-   
-   CAtkComponentPrivate *priv = c_atk_component_get_instance_private(component);
-   priv->layer = ATK_LAYER_WINDOW;
+   atk_object_set_role (ATK_OBJECT(self), ATK_ROLE_FRAME);
 
-	atk_object_set_parent(ATK_OBJECT(self),NULL);
+   c_atk_component_set_layer (C_ATK_COMPONENT(self), ATK_LAYER_WINDOW);
+   c_atk_component_set_coord_type (C_ATK_COMPONENT(self), ATK_XY_SCREEN);
+
+	atk_object_set_parent (ATK_OBJECT(self), NULL);
 }
 

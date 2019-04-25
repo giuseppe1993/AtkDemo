@@ -9,7 +9,7 @@
 #define DEMO_COMPONENT_H_
 
 #include <atk/atk.h>
-#include "fixAtk.h"
+#include "demo_actor.h"
 
 G_BEGIN_DECLS
 
@@ -22,7 +22,9 @@ struct _CAtkComponentClass
   CAtkActorClass parent_class;
 };
 
-void c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *width, gint *height, AtkCoordType coord_type);
+//protected
+void c_atk_component_set_layer (CAtkComponent *self, AtkLayer layer);
+void c_atk_component_set_coord_type (CAtkComponent *self, AtkCoordType coord_type);
 
 AtkLayer c_atk_component_get_layer(AtkComponent *component);
 

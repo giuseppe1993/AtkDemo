@@ -9,6 +9,7 @@
 #define MYATK_H_
 
 #include "demo_actor.h"
+#include "demo_component.h"
 #include "demo_root.h"
 #include "demo_root_pane.h"
 #include "demo_frame.h"
