@@ -5,6 +5,7 @@ demo
 .settings/
 demo_root.o
 demo_actor.o
+demo_component.o
 demo_root_pane.o
 demo_layered_pane.o
 demo_panel.o

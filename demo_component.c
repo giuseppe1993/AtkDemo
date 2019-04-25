@@ -21,14 +21,14 @@ typedef struct
 
 } CAtkComponentPrivate;
 
-static void c_atk_component_atk_component_init (gpointer g_iface, gpointer iface_data);
+static void c_atk_component_atk_component_init (AtkComponentIface *iface);
 
-G_DEFINE_ABSTRACT_TYPE_WITH_CODE (CAtkComponent, c_atk_component, C_TYPE_ATK_ACTOR, { G_ADD_PRIVATE (CAtkComponent); G_IMPLEMENT_INTERFACE (ATK_TYPE_COMPONENT_IFACE, c_atk_component_atk_component_init); })
+G_DEFINE_ABSTRACT_TYPE_WITH_CODE (CAtkComponent, c_atk_component, C_TYPE_ATK_ACTOR, { G_ADD_PRIVATE (CAtkComponent); G_IMPLEMENT_INTERFACE (atk_component_get_type(), c_atk_component_atk_component_init); })
 
 static void 
 c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *width, gint *height, AtkCoordType coord_type)
 {
-    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(component);
+    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
     x = priv->x;
     y = priv->y;
     width = priv->width;
@@ -46,7 +46,7 @@ c_atk_component_atk_component_init (AtkComponentIface *iface)
 AtkLayer 
 c_atk_component_get_layer(AtkComponent *component)
 {
-    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(component);
+    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
     return priv->layer;
 }
 
@@ -79,9 +79,6 @@ static void
 c_atk_component_class_init (CAtkComponentClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
-  AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
-
-  atk_class->get_layer = c_atk_component_get_layer;
 
   object_class->finalize = c_atk_component_finalize;
 }
