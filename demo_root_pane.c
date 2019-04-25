@@ -13,26 +13,22 @@
 typedef struct
 {
 	gint pad1;
-
 } CAtkRootPanePrivate;
-
 
 G_DEFINE_TYPE_WITH_PRIVATE (CAtkRootPane, c_atk_root_pane, C_TYPE_ATK_ACTOR)
 
 CAtkRootPane *
 c_atk_root_pane_new (void)
 {
-   CAtkRootPane *root_pane = g_object_new (C_TYPE_ATK_ROOT_PANE, NULL);
-
-   atk_object_initialize(ATK_OBJECT(root_pane), NULL);
-
-   return root_pane;
+  CAtkRootPane *root_pane = g_object_new (C_TYPE_ATK_ROOT_PANE, NULL);
+  atk_object_initialize(ATK_OBJECT(root_pane), NULL);
+  return root_pane;
 }
 
 static const char*
 c_atk_root_pane_get_name (AtkObject *obj)
 {
-   return "Atk Root Pane";
+  return "Atk Root Pane";
 }
 
 static const char*
@@ -44,7 +40,6 @@ c_atk_root_pane_get_description()
 static void
 c_atk_root_pane_initialize (AtkObject *self, gpointer null)
 {
-	
 }
 
 static void
@@ -75,6 +70,3 @@ c_atk_root_pane_init (CAtkRootPane *self)
   atk_object_set_role(ATK_OBJECT(self),ATK_ROLE_ROOT_PANE);
 	atk_object_set_parent(ATK_OBJECT(self),NULL);
 }
-
-
-

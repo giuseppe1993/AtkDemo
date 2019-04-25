@@ -42,7 +42,6 @@ c_atk_layered_pane_get_description()
 static void
 c_atk_layered_pane_initialize (AtkObject *self, gpointer null)
 {
-	
 }
 
 static void

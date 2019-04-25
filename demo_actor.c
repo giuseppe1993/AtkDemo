@@ -5,7 +5,6 @@
  *      Author: giuseppe
  */
 #include <stdio.h>
-
 #include <gmodule.h>
 #include "demo_actor.h"
 
