@@ -12,10 +12,10 @@
 
 typedef struct
 {
-    gint *x;
-    gint *y;
-    gint *width;
-    gint *height;
+    gint x;
+    gint y;
+    gint width;
+    gint height;
     AtkCoordType coord_type;
     AtkLayer layer;
 
@@ -29,10 +29,10 @@ static void
 c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *width, gint *height, AtkCoordType coord_type)
 {
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
-    x = priv->x;
-    y = priv->y;
-    width = priv->width;
-    height = priv->height;
+    *x = priv->x;
+    *y = priv->y;
+    *width = priv->width;
+    *height = priv->height;
     coord_type = priv->coord_type;
 }
 
