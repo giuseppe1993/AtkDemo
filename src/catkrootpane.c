@@ -6,7 +6,7 @@
  */
 
 #include <gmodule.h>
-#include "demo_root_pane.h"
+#include "catkrootpane.h"
 
 #define C_ATK_ROOT_PANE_GET_PRIVATE(o) (c_atk_root_pane_get_istance_private (o))
 

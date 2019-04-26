@@ -9,7 +9,7 @@
 #define DEMO_ROOT_PANE_H_
 
 #include <atk/atk.h>
-#include "demo_actor.h"
+#include "catkactor.h"
 
 G_BEGIN_DECLS
 

@@ -1,12 +1,12 @@
 /*
- * AtkRoot.c
+ * catkroot.c
  *
  *  Created on: Mar 29, 2019
  *      Author: giuseppe
  */
 
-#include "demo_root.h"
 #include <gmodule.h>
+#include "catkroot.h"
 
 #define C_ATK_ROOT_GET_PRIVATE(o) (c_atk_root_get_istance_private (o))
 

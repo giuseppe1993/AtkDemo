@@ -1,12 +1,12 @@
 /*
  * demo_component.c
  *
- *  Created on: Apr 14, 2019
+ *  Created on: Apr 25, 2019
  *      Author: giuseppe
  */
 #include <stdio.h>
 #include <gmodule.h>
-#include "demo_component.h"
+#include "catkcomponent.h"
 
 #define C_ATK_COMPONENT_GET_PRIVATE(o) (c_atk_component_get_istance_private (o))
 
@@ -25,7 +25,7 @@ static void c_atk_component_atk_component_init (AtkComponentIface *iface);
 
 G_DEFINE_ABSTRACT_TYPE_WITH_CODE (CAtkComponent, c_atk_component, C_TYPE_ATK_ACTOR, { G_ADD_PRIVATE (CAtkComponent); G_IMPLEMENT_INTERFACE (atk_component_get_type(), c_atk_component_atk_component_init); })
 
-static void 
+static void
 c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *width, gint *height, AtkCoordType coord_type)
 {
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
@@ -36,18 +36,18 @@ c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *wi
     coord_type = priv->coord_type;
 }
 
+static AtkLayer
+c_atk_component_get_layer(AtkComponent *component)
+{
+    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
+    return priv->layer;
+}
+
 static void
 c_atk_component_atk_component_init (AtkComponentIface *iface)
 {
     iface->get_extents = c_atk_component_get_extents;
     iface->get_layer = c_atk_component_get_layer;
-}
-
-AtkLayer 
-c_atk_component_get_layer(AtkComponent *component)
-{
-    CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
-    return priv->layer;
 }
 
 void
@@ -58,7 +58,7 @@ c_atk_component_set_layer (CAtkComponent *self, AtkLayer layer)
     priv->layer = layer;
 }
 
-void 
+void
 c_atk_component_set_coord_type(CAtkComponent *self, AtkCoordType coord_type)
 {
     g_return_if_fail (C_IS_ATK_COMPONENT (self));

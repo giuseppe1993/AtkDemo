@@ -6,7 +6,7 @@
  */
 #include <stdio.h>
 #include <gmodule.h>
-#include "demo_actor.h"
+#include "catkactor.h"
 
 #define C_ATK_ACTOR_GET_PRIVATE(o) (c_atk_actor_get_istance_private (o))
 
@@ -15,9 +15,7 @@ typedef struct
 	GList *accessibleObjects;
 	AtkStateSet *states;
 	AtkAttributeSet *attributes;
-
 } CAtkActorPrivate;
-
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (CAtkActor, c_atk_actor, ATK_TYPE_OBJECT)
 
@@ -28,12 +26,9 @@ c_atk_actor_add_child(CAtkActor *actor, AtkObject *obj)
 	gint index = -1;
 
 	atk_object_set_parent (obj, ATK_OBJECT (actor));
-
 	priv->accessibleObjects = g_list_append (priv->accessibleObjects, obj);
-	
 	index = g_list_index (priv->accessibleObjects, obj);
 	g_signal_emit_by_name (actor, "children-changed::add", index, obj, NULL);
-
 }
 
 void
@@ -42,30 +37,23 @@ c_atk_actor_remove_child(CAtkActor *actor, AtkObject *obj)
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
 	gint index = -1;
 
-	atk_object_set_parent (obj, ATK_OBJECT (actor));
-
-	priv->accessibleObjects = g_list_remove (priv->accessibleObjects, obj);
-
 	index = g_list_index (priv->accessibleObjects, obj);
-
-	g_signal_emit_by_name (actor, "children-changed::remove", index, obj, NULL);
+	priv->accessibleObjects = g_list_remove (priv->accessibleObjects, obj);
+	if (index != -1)
+		g_signal_emit_by_name (actor, "children-changed::remove", index, obj, NULL);
 }
 
 void
 c_atk_actor_add_state(CAtkActor *actor, AtkStateType state)
 {
-
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private (actor);
-
 	atk_state_set_add_state(priv->states, state);
-
 	atk_object_notify_state_change( ATK_OBJECT(actor), state, TRUE);
 }
 
-void c_atk_actor_remove_state(CAtkActor *actor, AtkStateType state){
-
+void c_atk_actor_remove_state(CAtkActor *actor, AtkStateType state)
+{
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private (actor);
-
 	atk_state_set_remove_state(priv->states, state);
 
 	atk_object_notify_state_change( ATK_OBJECT(actor), state, FALSE);
@@ -114,10 +102,10 @@ copy_attribute(const void *origin, gpointer null)
 {
 	AtkAttribute *attribute = (AtkAttribute *) origin;
 	AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
-	
+
 	copy -> name = g_strdup (attribute->name);
 	copy -> value = g_strdup (attribute -> value);
-		
+
 	return copy;
 }
 
@@ -207,4 +195,3 @@ c_atk_actor_init (CAtkActor *self)
 	priv->states = atk_state_set_new();
 	priv->attributes = NULL;
 }
-

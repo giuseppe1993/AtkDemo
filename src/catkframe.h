@@ -9,7 +9,7 @@
 #define DEMO_FRAME_H_
 
 #include <atk/atk.h>
-#include "demo_component.h"
+#include "catkcomponent.h"
 
 G_BEGIN_DECLS
 

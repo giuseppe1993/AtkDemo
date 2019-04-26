@@ -5,7 +5,7 @@
  *      Author: giuseppe
  */
 #include <gmodule.h>
-#include "demo_panel.h"
+#include "catkpanel.h"
 
 #define C_ATK_PANEL_GET_PRIVATE(o) (c_atk_panel_get_istance_private (o))
 

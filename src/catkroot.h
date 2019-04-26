@@ -9,7 +9,7 @@
 #define _C_ATK_ROOT_H_
 
 #include <atk/atk.h>
-#include "demo_actor.h"
+#include "catkactor.h"
 
 G_BEGIN_DECLS
 

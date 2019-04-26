@@ -5,7 +5,7 @@
  *      Author: giuseppe
  */
 #include <gmodule.h>
-#include "demo_layered_pane.h"
+#include "catklayeredpane.h"
 
 #define C_ATK_LAYERED_PANE_GET_PRIVATE(o) (c_atk_layered_pane_get_istance_private (o))
 

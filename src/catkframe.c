@@ -5,7 +5,7 @@
  *      Author: giuseppe
  */
 #include <gmodule.h>
-#include "demo_frame.h"
+#include "catkframe.h"
 
 #define C_ATK_FRAME_GET_PRIVATE(o) (c_atk_frame_get_istance_private (o))
 
@@ -42,7 +42,7 @@ c_atk_frame_get_description()
 static void
 c_atk_frame_initialize (AtkObject *self, gpointer null)
 {
-	
+
 }
 
 static void
@@ -76,4 +76,3 @@ c_atk_frame_init (CAtkFrame *self)
 
 	atk_object_set_parent (ATK_OBJECT(self), NULL);
 }
-

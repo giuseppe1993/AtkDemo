@@ -15,7 +15,6 @@ static CAtkActor *frame = NULL;
 static CAtkActor *root_pane = NULL;
 static CAtkActor *layered_pane = NULL;
 static CAtkActor *panel = NULL;
-static CAtkActor *panel2 = NULL;
 static GMainLoop *mainloop;
 
 static AtkObject *
@@ -69,14 +68,14 @@ create_atk_child_for_role(AtkRole role)
 	{
 	case ATK_ROLE_ROOT_PANE:
 		type= C_TYPE_ATK_ROOT_PANE;
-		break;	
+		break;
 	case ATK_ROLE_PANEL:
 		type= C_TYPE_ATK_PANEL;
 		break;
 	case ATK_ROLE_LAYERED_PANE:
 		type= C_TYPE_ATK_LAYERED_PANE;
 		break;
-	
+
 	default:
 		g_assert_not_reached();
 		return NULL;
@@ -93,14 +92,14 @@ int main(int argc, char **argv) {
 	if(init_outcome == 0){
 		printf ("Initialized\n");
 		add_atk_frame();
-		
+
 		root_pane = create_atk_child_for_role(ATK_ROLE_ROOT_PANE);
 		c_atk_actor_add_child(C_ATK_ACTOR(frame), ATK_OBJECT(root_pane));
 		panel = create_atk_child_for_role(ATK_ROLE_PANEL);
 		c_atk_actor_add_child(root_pane,ATK_OBJECT(panel));
 		layered_pane = create_atk_child_for_role(ATK_ROLE_LAYERED_PANE);
 		c_atk_actor_add_child(root_pane,ATK_OBJECT(layered_pane));
-		
+
 	}
 	else
 		printf ("Not Initialized\n");
