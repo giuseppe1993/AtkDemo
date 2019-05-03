@@ -9,6 +9,8 @@
 #define MYATK_H_
 
 #include "src/catkactor.h"
+#include "src/catkaction.h"
+#include "src/catkactioncomponent.h"
 #include "src/catkcomponent.h"
 #include "src/catkroot.h"
 #include "src/catkrootpane.h"
