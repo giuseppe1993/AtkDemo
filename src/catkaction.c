@@ -14,14 +14,21 @@
      GList *accessibleActions;
  } CAtkActionPrivate;
 
+struct _RealAction {
+   gchar* description;
+   gchar* name;
+   gchar* keybinding;
+   gchar* localizedname;
+ };
+
  static void c_atk_action_atk_action_init (AtkActionIface *iface);
 
  G_DEFINE_ABSTRACT_TYPE_WITH_CODE (CAtkAction, c_atk_action, C_TYPE_ATK_ACTOR, { G_ADD_PRIVATE (CAtkAction); G_IMPLEMENT_INTERFACE (atk_action_get_type(), c_atk_action_atk_action_init); })
 
 static gint
-c_atk_action_get_n_actions(AtkAction action)
+c_atk_action_get_n_actions(AtkAction *action)
 {
-  g_return_if_fail (C_IS_ATK_ACTION(action));
+  g_return_val_if_fail (C_IS_ATK_ACTION(action), -1);
   CAtkActionPrivate *priv = c_atk_action_get_instance_private(C_ATK_ACTION(action));
   return g_list_length(priv->accessibleActions);
 }
@@ -29,40 +36,40 @@ c_atk_action_get_n_actions(AtkAction action)
 static const gchar*
 c_atk_action_get_description(AtkAction *action, gint i)
 {
-  g_return_if_fail (C_IS_ATK_ACTION(action));
+  g_return_val_if_fail (C_IS_ATK_ACTION(action), NULL);
   CAtkActionPrivate *priv = c_atk_action_get_instance_private(C_ATK_ACTION(action));
   RealAction *data = g_list_nth_data (priv->accessibleActions, i);
-  g_return_if_fail (data);
-  return data->description;
+  g_return_val_if_fail (data, NULL);
+  return strdup(data->description);
 }
 
 static const gchar*
 c_atk_action_get_name(AtkAction *action, gint i)
 {
-  g_return_if_fail (C_IS_ATK_ACTION(action));
+  g_return_val_if_fail (C_IS_ATK_ACTION(action), NULL);
   CAtkActionPrivate *priv = c_atk_action_get_instance_private(C_ATK_ACTION(action));
   RealAction *data = g_list_nth_data (priv->accessibleActions, i);
-  g_return_if_fail (data);
+  g_return_val_if_fail (data, NULL);
   return data->name;
 }
 
 static const gchar*
 c_atk_action_get_keybinding(AtkAction *action, gint i)
 {
-  g_return_if_fail (C_IS_ATK_ACTION(action));
+  g_return_val_if_fail (C_IS_ATK_ACTION(action), NULL);
   CAtkActionPrivate *priv = c_atk_action_get_instance_private(C_ATK_ACTION(action));
   RealAction *data = g_list_nth_data (priv->accessibleActions, i);
-  g_return_if_fail (data);
+  g_return_val_if_fail (data, NULL);
   return data->keybinding;
 }
 
 static const gchar*
 c_atk_action_get_localized_name(AtkAction *action, gint i)
 {
-  g_return_if_fail (C_IS_ATK_ACTION(action));
+  g_return_val_if_fail (C_IS_ATK_ACTION(action), NULL);
   CAtkActionPrivate *priv = c_atk_action_get_instance_private(C_ATK_ACTION(action));
   RealAction *data = g_list_nth_data (priv->accessibleActions, i);
-  g_return_if_fail (data);
+  g_return_val_if_fail (data, NULL);
   return data->localizedname;
 }
 
@@ -114,31 +121,34 @@ c_atk_action_get_localized_name(AtkAction *action, gint i)
  {
    CAtkActionPrivate *priv = c_atk_action_get_instance_private(self);
    GList *data = g_list_find(priv->accessibleActions, action);
-   g_return_if_fail (data);
-   g_free(data->data->name);
-   data->data->name = name;
+   RealAction *realaction = (RealAction*) data->data;
+   g_return_if_fail (realaction);
+   g_free((void*)realaction->name);
+   realaction->name = name;
  }
  void c_atk_action_set_keybinding(CAtkAction *self, RealAction *action, gchar *keybinding)
  {
    CAtkActionPrivate *priv = c_atk_action_get_instance_private(self);
    GList *data = g_list_find(priv->accessibleActions, action);
-   g_return_if_fail (data);
-   g_free(data->data->keybinding);
-   data->data->keybinding = keybinding;
+   RealAction *realaction = (RealAction*) data->data;
+   g_return_if_fail (realaction);
+   g_free((void*)realaction->keybinding);
+   realaction->keybinding = keybinding;
  }
 
- void c_atk_action_set_localized_name(CAtkAction *self, gchar *localizedname)
+ void c_atk_action_set_localized_name(CAtkAction *self, RealAction *action, gchar *localizedname)
  {
    CAtkActionPrivate *priv = c_atk_action_get_instance_private(self);
    GList *data = g_list_find(priv->accessibleActions, action);
-   g_return_if_fail (data);
-   g_free(data->data->localizedname);
-   data->data->localizedname = localizedname;
+   RealAction *realaction = (RealAction*) data->data;
+   g_return_if_fail (realaction);
+   g_free((void*)realaction->localizedname);
+   realaction->localizedname = localizedname;
  }
 
  static void
  c_atk_action_init (CAtkAction *self)
  {
      CAtkActionPrivate *priv = c_atk_action_get_instance_private(self);
-     priv->accessibleObjects = NULL;
+     priv->accessibleActions = NULL;
  }

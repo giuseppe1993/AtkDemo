@@ -21,13 +21,7 @@
    CAtkActorClass parent_class;
  };
 
- typedef struct
- {
-   const gchar* description;
-   const gchar* name;
-   const gchar* keybinding;
-   const gchar* localizedname;
- } RealAction;
+ typedef struct _RealAction RealAction;
 
  void c_atk_action_add_action(CAtkAction *self, RealAction *action);
  void c_atk_action_remove_action(CAtkAction *self, RealAction *action);
