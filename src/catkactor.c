@@ -14,6 +14,7 @@ typedef struct
 {
 	GList *accessibleObjects;
 	AtkStateSet *states;
+	AtkRelationSet *relations;
 	AtkAttributeSet *attributes;
 } CAtkActorPrivate;
 
@@ -57,6 +58,13 @@ void c_atk_actor_remove_state(CAtkActor *actor, AtkStateType state)
 	atk_state_set_remove_state(priv->states, state);
 
 	atk_object_notify_state_change( ATK_OBJECT(actor), state, FALSE);
+}
+
+static AtkRelationSet*
+c_atk_actor_ref_relation_set(AtkObject *obj)
+{
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(obj));
+	return g_object_ref(priv->relations);
 }
 
 static AtkStateSet*
@@ -103,8 +111,8 @@ copy_attribute(const void *origin, gpointer null)
 	AtkAttribute *attribute = (AtkAttribute *) origin;
 	AtkAttribute *copy = g_new0 ( AtkAttribute, 1 );
 
-	copy -> name = g_strdup (attribute->name);
-	copy -> value = g_strdup (attribute -> value);
+	copy->name = g_strdup (attribute->name);
+	copy->value = g_strdup (attribute -> value);
 
 	return copy;
 }
@@ -133,9 +141,8 @@ void c_atk_actor_add_attribute (CAtkActor *actor, gchar *name, gchar *value)
 	attribute->value = value;
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
 	if(!g_slist_find(priv->attributes, attribute))
-	{
 		priv->attributes = g_slist_append(priv->attributes, attribute);
-	}
+
 }
 
 void c_atk_actor_remove_attribute (CAtkActor *actor, gchar *name, gchar *value)
@@ -145,9 +152,21 @@ void c_atk_actor_remove_attribute (CAtkActor *actor, gchar *name, gchar *value)
 	attribute->value = value;
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(actor));
 	if(!g_slist_find(priv->attributes, attribute))
-	{
 		priv->attributes = g_slist_remove(priv->attributes, attribute);
-	}
+
+}
+
+AtkRelationSet* c_atk_actor_get_relation_set(CAtkActor *actor)
+{
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	return priv->relations;
+}
+
+void c_atk_actor_set_relation_set(CAtkActor *actor, AtkRelationSet* relations)
+{
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	g_free(priv->relations);
+	priv->relations = relations;
 }
 
 static void
@@ -166,6 +185,7 @@ c_atk_actor_finalize (GObject *object)
 	}
 
 	atk_attribute_set_free(priv->attributes);
+	g_free(priv->relations);
 
 	g_clear_object(&priv->states);
 
@@ -182,6 +202,7 @@ c_atk_actor_class_init (CAtkActorClass *klass)
   atk_class->get_n_children = c_atk_actor_get_n_children;
   atk_class->ref_child = c_atk_actor_ref_child;
   atk_class->ref_state_set = c_atk_actor_ref_state_set;
+	atk_class->ref_relation_set = c_atk_actor_ref_relation_set;
   atk_class->get_attributes = c_atk_actor_get_attributes;
 
   object_class->finalize = c_atk_actor_finalize;
@@ -193,5 +214,6 @@ c_atk_actor_init (CAtkActor *self)
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(self);
 	priv->accessibleObjects = NULL;
 	priv->states = atk_state_set_new();
+	priv->relations = atk_relation_set_new();
 	priv->attributes = NULL;
 }

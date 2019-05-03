@@ -12,13 +12,9 @@
 
 typedef struct
 {
-    gint x;
-    gint y;
-    gint width;
-    gint height;
+    AtkRectangle *rectangle;
     AtkCoordType coord_type;
     AtkLayer layer;
-
 } CAtkComponentPrivate;
 
 static void c_atk_component_atk_component_init (AtkComponentIface *iface);
@@ -29,10 +25,10 @@ static void
 c_atk_component_get_extents (AtkComponent *component, gint *x, gint *y, gint *width, gint *height, AtkCoordType coord_type)
 {
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(C_ATK_COMPONENT(component));
-    *x = priv->x;
-    *y = priv->y;
-    *width = priv->width;
-    *height = priv->height;
+    *x = priv->rectangle->x;
+    *y = priv->rectangle->y;
+    *width = priv->rectangle->width;
+    *height = priv->rectangle->height;
     coord_type = priv->coord_type;
 }
 
@@ -87,9 +83,6 @@ static void
 c_atk_component_init (CAtkComponent *self)
 {
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(self);
-    priv->x = 0;
-    priv->y = 0;
-    priv->width = 0;
-    priv->height = 0;
+    priv->rectangle = g_new0 ( AtkRectangle, 1 );
     priv->layer = ATK_LAYER_INVALID;
 }
