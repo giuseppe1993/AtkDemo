@@ -26,8 +26,6 @@ struct _CAtkComponentClass
 void c_atk_component_set_layer (CAtkComponent *self, AtkLayer layer);
 void c_atk_component_set_coord_type (CAtkComponent *self, AtkCoordType coord_type);
 
-//AtkLayer c_atk_component_get_layer(AtkComponent *component);
-
 G_END_DECLS
 
 #endif /* DEMO_COMPONENT_H_ */
