@@ -101,7 +101,6 @@ c_atk_action_get_localized_name(AtkAction *action, gint i)
  c_atk_action_class_init (CAtkActionClass *klass)
  {
    GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
    object_class->finalize = c_atk_action_finalize;
  }
 

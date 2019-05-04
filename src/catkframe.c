@@ -27,22 +27,9 @@ c_atk_frame_new (void)
    return frame;
 }
 
-static const char*
-c_atk_frame_get_name (AtkObject *obj)
-{
-   return "Atk Frame";
-}
-
-static const char*
-c_atk_frame_get_description()
-{
-	return "this is the description of the frame component";
-}
-
 static void
 c_atk_frame_initialize (AtkObject *self, gpointer null)
 {
-
 }
 
 static void
@@ -60,8 +47,6 @@ c_atk_frame_class_init (CAtkFrameClass *klass)
   AtkObjectClass *atk_class = ATK_OBJECT_CLASS (klass);
 
   atk_class->initialize = c_atk_frame_initialize;
-  atk_class->get_name = c_atk_frame_get_name;
-  atk_class->get_description = c_atk_frame_get_description;
 
   object_class->finalize = c_atk_frame_finalize;
 }
@@ -69,10 +54,10 @@ c_atk_frame_class_init (CAtkFrameClass *klass)
 static void
 c_atk_frame_init (CAtkFrame *self)
 {
-   atk_object_set_role (ATK_OBJECT(self), ATK_ROLE_FRAME);
-
-   c_atk_component_set_layer (C_ATK_COMPONENT(self), ATK_LAYER_WINDOW);
-   c_atk_component_set_coord_type (C_ATK_COMPONENT(self), ATK_XY_SCREEN);
-
+	atk_object_set_role (ATK_OBJECT(self), ATK_ROLE_FRAME);
 	atk_object_set_parent (ATK_OBJECT(self), NULL);
+	c_atk_actor_set_name(C_ATK_ACTOR(self),"Atk Frame");
+  c_atk_actor_set_description(C_ATK_ACTOR(self),"this is the description of the frame component");
+	c_atk_component_set_layer (C_ATK_COMPONENT(self), ATK_LAYER_WINDOW);
+	c_atk_component_set_coord_type (C_ATK_COMPONENT(self), ATK_XY_SCREEN);
 }

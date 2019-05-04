@@ -22,8 +22,8 @@
  };
 
  //protected
- void c_atk_component_set_layer (CAtkActionComponent *self, AtkLayer layer);
- void c_atk_component_set_coord_type (CAtkActionComponent *self, AtkCoordType coord_type);
+ void c_atk_action_component_set_layer (CAtkActionComponent *self, AtkLayer layer);
+ void c_atk_action_component_set_coord_type (CAtkActionComponent *self, AtkCoordType coord_type);
 
  G_END_DECLS
 

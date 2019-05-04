@@ -23,19 +23,14 @@ struct _CAtkActorClass
 };
 
 void c_atk_actor_add_child (CAtkActor *actor, AtkObject *obj);
-
 void c_atk_actor_remove_child (CAtkActor *actor, AtkObject *obj);
-
+void c_atk_actor_set_name(CAtkActor *actor, gchar *name);
+void c_atk_actor_set_description(CAtkActor *actor, gchar *description);
 void c_atk_actor_add_state (CAtkActor *actor, AtkStateType state);
-
 void c_atk_actor_remove_state (CAtkActor *actor, AtkStateType state);
-
 void c_atk_actor_add_attribute (CAtkActor *actor, gchar *name, gchar *value);
-
 void c_atk_actor_remove_attribute (CAtkActor *actor,  gchar *name, gchar *value);
-
 AtkRelationSet* c_atk_actor_get_relation_set(CAtkActor *actor);
-
 void c_atk_actor_set_relation_set(CAtkActor *actor, AtkRelationSet* relations);
 
 G_END_DECLS

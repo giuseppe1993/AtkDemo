@@ -13,6 +13,8 @@
 typedef struct
 {
 	GList *accessibleObjects;
+	gchar *name;
+	gchar *description;
 	AtkStateSet *states;
 	AtkRelationSet *relations;
 	AtkAttributeSet *attributes;
@@ -103,6 +105,34 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   g_object_ref (item);
 
   return item;
+}
+
+void c_atk_actor_set_name(CAtkActor *actor, gchar *name)
+{
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	priv->name = name;
+}
+
+static const char*
+c_atk_actor_get_name(AtkObject *obj)
+{
+	g_return_val_if_fail (C_IS_ATK_ACTOR(obj), NULL);
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(obj));
+	return strdup(priv->name);
+}
+
+void c_atk_actor_set_description(CAtkActor *actor, gchar *description)
+{
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	priv->description = description;
+}
+
+static const char*
+c_atk_actor_get_description(AtkObject *obj)
+{
+	g_return_val_if_fail (C_IS_ATK_ACTOR(obj), NULL);
+	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(C_ATK_ACTOR(obj));
+	return strdup(priv->description);
 }
 
 static void*
@@ -201,6 +231,8 @@ c_atk_actor_class_init (CAtkActorClass *klass)
 
   atk_class->get_n_children = c_atk_actor_get_n_children;
   atk_class->ref_child = c_atk_actor_ref_child;
+	atk_class->get_name = c_atk_actor_get_name;
+  atk_class->get_description = c_atk_actor_get_description;
   atk_class->ref_state_set = c_atk_actor_ref_state_set;
 	atk_class->ref_relation_set = c_atk_actor_ref_relation_set;
   atk_class->get_attributes = c_atk_actor_get_attributes;
