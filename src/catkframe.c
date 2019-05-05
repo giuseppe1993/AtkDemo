@@ -21,9 +21,7 @@ CAtkFrame *
 c_atk_frame_new (void)
 {
    CAtkFrame *frame = g_object_new (C_TYPE_ATK_FRAME, NULL);
-
    atk_object_initialize(ATK_OBJECT(frame), NULL);
-
    return frame;
 }
 

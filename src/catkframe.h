@@ -19,7 +19,7 @@ G_DECLARE_DERIVABLE_TYPE(CAtkFrame, c_atk_frame, C, ATK_FRAME, CAtkComponent)
 
 struct _CAtkFrameClass
 {
-  CAtkActorClass parent_class;
+  CAtkComponentClass parent_class;
 };
 
 CAtkFrame *c_atk_frame_new (void);
