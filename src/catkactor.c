@@ -13,8 +13,8 @@
 typedef struct
 {
 	GList *accessibleObjects;
-	char *name;
-	char *description;
+	const char *name;
+	const char *description;
 	AtkStateSet *states;
 	AtkRelationSet *relations;
 	AtkAttributeSet *attributes;
@@ -107,10 +107,21 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   return item;
 }
 
-void c_atk_actor_set_name(CAtkActor *actor, char *name)
+void c_atk_actor_set_name(CAtkActor *actor, const char *name)
 {
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	AtkPropertyValues *signalstuff = g_new0(AtkPropertyValues, 1);
+	GValue *old_value = g_new0 (GValue, 1);
+	GValue *new_value = g_new0 (GValue, 1);
+	g_value_init (old_value, G_TYPE_STRING);
+	g_value_init (new_value, G_TYPE_STRING);
+	g_value_set_string (old_value, priv->name);
+	g_value_set_string (new_value, name);
+	signalstuff->property_name = "accessible-name";
+	signalstuff->old_value = *old_value;
+	signalstuff->new_value = *new_value;
 	priv->name = name;
+	g_signal_emit_by_name (actor, "property-change", signalstuff, NULL);
 }
 
 static const char*
@@ -121,10 +132,21 @@ c_atk_actor_get_name(AtkObject *obj)
 	return strdup(priv->name);
 }
 
-void c_atk_actor_set_description(CAtkActor *actor, char *description)
+void c_atk_actor_set_description(CAtkActor *actor, const char *description)
 {
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
+	AtkPropertyValues *signalstuff = g_new0(AtkPropertyValues, 1);
+	GValue *old_value = g_new0 (GValue, 1);
+	GValue *new_value = g_new0 (GValue, 1);
+	g_value_init (old_value, G_TYPE_STRING);
+	g_value_init (new_value, G_TYPE_STRING);
+	g_value_set_string (old_value, priv->name);
+	g_value_set_string (new_value, description);
+	signalstuff->property_name = "accessible-name";
+	signalstuff->old_value = *old_value;
+	signalstuff->new_value = *new_value;
 	priv->description = description;
+	g_signal_emit_by_name (actor, "property-change", signalstuff, NULL);
 }
 
 static const char*
