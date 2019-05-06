@@ -99,7 +99,9 @@ int main(int argc, char **argv) {
 		c_atk_actor_add_child(root_pane,ATK_OBJECT(panel));
 		layered_pane = create_atk_child_for_role(ATK_ROLE_LAYERED_PANE);
 		c_atk_actor_add_child(root_pane,ATK_OBJECT(layered_pane));
-
+		c_atk_actor_set_name(frame,"M Atk Frame");
+	  c_atk_actor_set_description(frame,"M this is the description of the frame component");
+		c_atk_component_set_bound (C_ATK_COMPONENT(frame), 10, 10, 10, 10);
 	}
 	else
 		printf ("Not Initialized\n");

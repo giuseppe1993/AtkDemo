@@ -49,15 +49,23 @@ c_atk_component_atk_component_init (AtkComponentIface *iface)
 void
 c_atk_component_set_layer (CAtkComponent *self, AtkLayer layer)
 {
-    g_return_if_fail (C_IS_ATK_COMPONENT (self));
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(self);
     priv->layer = layer;
 }
 
 void
+c_atk_component_set_bound (CAtkComponent *self, gint x, gint y, gint width, gint height)
+{
+  CAtkComponentPrivate *priv = c_atk_component_get_instance_private(self);
+  priv->rectangle->x = x;
+  priv->rectangle->y = y;
+  priv->rectangle->width = width;
+  priv->rectangle->height = height;
+}
+
+void
 c_atk_component_set_coord_type(CAtkComponent *self, AtkCoordType coord_type)
 {
-    g_return_if_fail (C_IS_ATK_COMPONENT (self));
     CAtkComponentPrivate *priv = c_atk_component_get_instance_private(self);
     priv->coord_type = coord_type;
 }

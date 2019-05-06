@@ -13,8 +13,8 @@
 typedef struct
 {
 	GList *accessibleObjects;
-	gchar *name;
-	gchar *description;
+	char *name;
+	char *description;
 	AtkStateSet *states;
 	AtkRelationSet *relations;
 	AtkAttributeSet *attributes;
@@ -107,7 +107,7 @@ c_atk_actor_ref_child (AtkObject *obj, gint i)
   return item;
 }
 
-void c_atk_actor_set_name(CAtkActor *actor, gchar *name)
+void c_atk_actor_set_name(CAtkActor *actor, char *name)
 {
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
 	priv->name = name;
@@ -121,7 +121,7 @@ c_atk_actor_get_name(AtkObject *obj)
 	return strdup(priv->name);
 }
 
-void c_atk_actor_set_description(CAtkActor *actor, gchar *description)
+void c_atk_actor_set_description(CAtkActor *actor, char *description)
 {
 	CAtkActorPrivate *priv = c_atk_actor_get_instance_private(actor);
 	priv->description = description;

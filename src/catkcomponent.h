@@ -24,6 +24,7 @@ struct _CAtkComponentClass
 
 //protected
 void c_atk_component_set_layer (CAtkComponent *self, AtkLayer layer);
+void c_atk_component_set_bound (CAtkComponent *self, gint x, gint y, gint width, gint height);
 void c_atk_component_set_coord_type (CAtkComponent *self, AtkCoordType coord_type);
 
 G_END_DECLS
